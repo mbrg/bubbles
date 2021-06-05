@@ -10,7 +10,7 @@ func _ready():
 	$VisibilityNotifier2D.connect("screen_exited", self, "_on_VisibilityNotifier2D_screen_exited")
 	self.connect("body_entered", self, "_on_Bubble_body_entered")
 	
-# override gravity
+# apply force
 func _integrate_forces(state):
 
 	applied_force = Vector2()
@@ -26,15 +26,19 @@ func _integrate_forces(state):
 	applied_torque = torque
 
 func start():
-	print("Bubble with position=" + str(position) + " mass=" + str(mass))
+	print("Bubble(position=%s,mass=%d)" % [str(position), mass])
 
 	show()
 	$CollisionShape2D.disabled = false
+
+func set_scale(scale):
+	$Sprite.scale *= scale
+	$CollisionShape2D.scale *= scale
+	$VisibilityNotifier2D.scale *= scale
 
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 
 func _on_Bubble_body_entered(body):
-	print("CONTACT")
 	hide()
 	$CollisionShape2D.set_deferred("disabled", true)

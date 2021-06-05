@@ -2,30 +2,35 @@ extends Node
 
 export (PackedScene) var Bubble
 
-var max_bubbles = 10
-var bubble_min_mass = 10
-var bubble_max_mass = 30
+export var bubbles_max_simultaneous = 10
+export var bubbles_min_mass = 10
+export var bubbles_max_mass = 30
 
 func _ready():
 	randomize()
 	
 	$BubbleTimer.connect("timeout", self, "_on_BubbleTimer_timeout")
 	
+	start()
+	
+func start():
 	$BubbleTimer.start()
 
 func _on_BubbleTimer_timeout():
+	# new bubble
 	var bubble = Bubble.instance()
 	add_child(bubble)
 	
+	# choose random spawn location
 	$BubblePath/BubbleSpawnLocation.offset = randi()
-	var size = rand_range(bubble_min_mass, bubble_max_mass)
-	var scale = sqrt(size/bubble_min_mass)
-	print(scale)
+	# choose random mass
+	var size = rand_range(bubbles_min_mass, bubbles_max_mass)
+	# scale bubble size according to mass
+	var scale = sqrt(size/bubbles_min_mass)
 	
+	# set bubble properties
 	bubble.position = $BubblePath/BubbleSpawnLocation.position
 	bubble.mass = size
-	bubble.get_node("Sprite").scale *= scale
-	bubble.get_node("CollisionShape2D").scale *= scale
-	bubble.get_node("VisibilityNotifier2D").scale *= scale
+	bubble.set_scale(scale)
 	
 	bubble.start()
