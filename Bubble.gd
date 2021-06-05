@@ -1,5 +1,7 @@
 extends RigidBody2D
 
+class_name Bubble, "res://art/bubble.png"
+
 var force = 500
 var torque = 0 #20000
 
@@ -9,6 +11,13 @@ func _ready():
 	# free on screen_exited
 	$VisibilityNotifier2D.connect("screen_exited", self, "_on_VisibilityNotifier2D_screen_exited")
 	self.connect("body_entered", self, "_on_Bubble_body_entered")
+	
+	_if_main()
+
+func _if_main():
+	if get_tree().current_scene.name != name:
+		return
+	show()
 	
 # apply force
 func _integrate_forces(state):

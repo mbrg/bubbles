@@ -1,5 +1,7 @@
 extends Node
 
+class_name Bubbles
+
 export (PackedScene) var Bubble
 
 export var bubbles_max_simultaneous = 10
@@ -11,6 +13,11 @@ func _ready():
 	
 	$BubbleTimer.connect("timeout", self, "_on_BubbleTimer_timeout")
 	
+	_if_main()
+	
+func _if_main():
+	if get_tree().current_scene.name != name:
+		return
 	start()
 	
 func start():

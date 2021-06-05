@@ -8,10 +8,26 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "RigidBody2D",
+"class": "Bubble",
+"language": "GDScript",
+"path": "res://Bubble.gd"
+}, {
+"base": "Node",
+"class": "Bubbles",
+"language": "GDScript",
+"path": "res://Bubbles.gd"
+} ]
+_global_script_class_icons={
+"Bubble": "res://art/bubble.png",
+"Bubbles": ""
+}
+
 [application]
 
 config/name="Bubbles"
-run/main_scene="res://Main.tscn"
+run/main_scene="res://Bubbles.tscn"
 config/icon="res://icon.png"
 
 [physics]
