@@ -4,7 +4,6 @@ class_name Bubbles
 
 export (PackedScene) var Bubble
 
-export var bubbles_max_simultaneous = 10
 export var bubbles_min_mass = 10
 export var bubbles_max_mass = 30
 
