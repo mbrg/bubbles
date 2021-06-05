@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Main.gd" type="Script" id=1]
+[ext_resource path="res://Bubble.tscn" type="PackedScene" id=2]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 0, 600, 0, 0, 0, 0, 1024, 600 )
+}
+
+[node name="Main" type="Node"]
+script = ExtResource( 1 )
+Bubble = ExtResource( 2 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.305882, 0.403922, 0.517647, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BubbleTimer" type="Timer" parent="."]
+
+[node name="BubblePath" type="Path2D" parent="."]
+curve = SubResource( 1 )
+
+[node name="BubbleSpawnLocation" type="PathFollow2D" parent="BubblePath"]
+position = Vector2( 0, 600 )
+rotation = -3.11112e-05
+
+[connection signal="timeout" from="BubbleTimer" to="." method="_on_BubbleTimer_timeout"]
