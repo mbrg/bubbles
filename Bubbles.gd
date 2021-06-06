@@ -10,18 +10,11 @@ var bubbles_group = "bubbles"
 
 func _ready():
 	randomize()
-	
-	$BubbleTimer.connect("timeout", self, "_on_BubbleTimer_timeout")
-	
-	enable_if_main()
-	
-func enable_if_main():
-	if get_tree().current_scene.name != name:
-		return
-	enable()
+	if get_tree().current_scene.name == name:
+		enable()
 	
 func enable():
-	$BubbleTimer.enable()
+	$BubbleTimer.start()
 
 func add_force(offset: Vector2, force: Vector2):
 	var bubbles = get_tree().get_nodes_in_group(bubbles_group)
