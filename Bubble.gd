@@ -1,9 +1,6 @@
 extends RigidBody2D
 class_name Bubble, "res://art/bubble.png"
 
-var force = 500
-var torque = 0 #20000
-
 export var pseudo_gravity_scale = 98
 export var pseudo_gravity_vec = Vector2(0, -1)
 
