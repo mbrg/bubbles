@@ -6,10 +6,32 @@ export var pseudo_gravity_vec = Vector2(0, -1)
 
 export var enable_on_start = false
 
+export var wind_interval = 3.5
+export var wind_interval_var = 1.0
+export var wind_slow_speed = 8
+export var wind_slow_strength_scale = 100
+export var wind_fast_speed = 12
+export var wind_fast_strength_scale = 200
+
 func _ready():
+	randomize()
+	$Sprite.material = $Sprite.get_material().duplicate()
+	var cur_wind_interval = wind_interval + randf() * wind_interval_var - wind_interval_var / 2
+	$Sprite.get_material().set_shader_param("interval", cur_wind_interval)
+	
+	slow_wind()
+
 	hide()
 	if enable_on_start or get_tree().current_scene.name == name:
 		enable()
+
+func fast_wind():
+	$Sprite.get_material().set_shader_param("speed", wind_fast_speed)
+	$Sprite.get_material().set_shader_param("strengthScale", wind_fast_strength_scale)
+
+func slow_wind():
+	$Sprite.get_material().set_shader_param("speed", wind_slow_speed)
+	$Sprite.get_material().set_shader_param("strengthScale", wind_slow_strength_scale)
 
 func set_scale(scale):
 	$Sprite.scale *= scale
