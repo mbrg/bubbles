@@ -4,15 +4,11 @@ class_name Bubble, "res://art/bubble.png"
 var force = 500
 var torque = 0 #20000
 
-export var pseudo_gravity_scale = 98
+export var pseudo_gravity_scale = 9800
 export var pseudo_gravity_vec = Vector2(0, -1)
 
 func _ready():
 	disable()
-	
-	$VisibilityNotifier2D.connect("screen_exited", self, "_on_VisibilityNotifier2D_screen_exited")
-	self.connect("body_entered", self, "_on_Bubble_body_entered")
-	
 	enable_if_main()
 
 func enable_if_main():
@@ -42,6 +38,7 @@ func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 
 func _on_Bubble_body_entered(body):
+	print("POP")
 	disable()
 
 # apply force
