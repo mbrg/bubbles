@@ -1,12 +1,12 @@
 extends Node
-class_name Bubbles
+#class_name Bubbles
 
 export (PackedScene) var Bubble
 
+export var enable_on_start = false
+
 export var bubbles_min_mass = 2
 export var bubbles_max_mass = 6
-
-export var enable_on_start = false
 
 var bubbles_group = "bubbles"
 
