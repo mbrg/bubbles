@@ -17,7 +17,8 @@ func set_scale(scale):
 	$VisibilityNotifier2D.scale *= scale
 
 func enable():
-	utils_printf("position=%s, mass=%d", [str(position), mass])
+	utils_printf("position=%s, mass=%f, gravity_scale=%f", 
+		[str(position), mass, pseudo_gravity_scale])
 	
 	show()
 	$CollisionShape2D.disabled = false
