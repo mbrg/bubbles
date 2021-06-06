@@ -1,5 +1,4 @@
 extends Node
-
 class_name Bubbles
 
 export (PackedScene) var Bubble
@@ -7,14 +6,16 @@ export (PackedScene) var Bubble
 export var bubbles_min_mass = 2
 export var bubbles_max_mass = 6
 
+var bubbles_group = "bubbles"
+
 func _ready():
 	randomize()
 	
 	$BubbleTimer.connect("timeout", self, "_on_BubbleTimer_timeout")
 	
-	_if_main()
+	start_if_main()
 	
-func _if_main():
+func start_if_main():
 	if get_tree().current_scene.name != name:
 		return
 	start()
@@ -22,9 +23,20 @@ func _if_main():
 func start():
 	$BubbleTimer.start()
 
+func add_force(force: Vector2, position: Vector2):
+	var bubbles = get_tree().get_nodes_in_group(bubbles_group)
+	for bubble in bubbles:
+		bubble.add_force(force, position)
+
+func apply_impulse(impulse: Vector2, position: Vector2):
+	var bubbles = get_tree().get_nodes_in_group(bubbles_group)
+	for bubble in bubbles:
+		bubble.apply_impulse(position, impulse)
+
 func _on_BubbleTimer_timeout():
 	# new bubble
 	var bubble = Bubble.instance()
+	bubble.add_to_group(bubbles_group)
 	add_child(bubble)
 	
 	# choose random spawn location

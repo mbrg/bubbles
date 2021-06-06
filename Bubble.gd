@@ -1,9 +1,9 @@
 extends RigidBody2D
-
 class_name Bubble, "res://art/bubble.png"
 
 var force = 500
 var torque = 0 #20000
+var gravity = 98
 
 func _ready():
 	hide()
@@ -12,9 +12,9 @@ func _ready():
 	$VisibilityNotifier2D.connect("screen_exited", self, "_on_VisibilityNotifier2D_screen_exited")
 	self.connect("body_entered", self, "_on_Bubble_body_entered")
 	
-	_if_main()
+	start_if_main()
 
-func _if_main():
+func start_if_main():
 	if get_tree().current_scene.name != name:
 		return
 	show()
@@ -39,6 +39,8 @@ func start():
 
 	show()
 	$CollisionShape2D.disabled = false
+	
+	
 
 func set_scale(scale):
 	$Sprite.scale *= scale
