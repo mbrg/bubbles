@@ -23,15 +23,15 @@ func enable_if_main():
 func enable():
 	$BubbleTimer.enable()
 
-func add_force(force: Vector2, position: Vector2):
+func add_force(offset: Vector2, force: Vector2):
 	var bubbles = get_tree().get_nodes_in_group(bubbles_group)
 	for bubble in bubbles:
-		bubble.add_force(force, position)
+		bubble.add_force(offset, force)
 
-func apply_impulse(impulse: Vector2, position: Vector2):
+func apply_impulse(offset: Vector2, impulse: Vector2):
 	var bubbles = get_tree().get_nodes_in_group(bubbles_group)
 	for bubble in bubbles:
-		bubble.apply_impulse(position, impulse)
+		bubble.apply_impulse(offset, impulse)
 
 func _on_BubbleTimer_timeout():
 	# new bubble
