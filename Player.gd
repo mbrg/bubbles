@@ -5,29 +5,59 @@ signal apply_uniform_force(force_vec)
 
 export var force_scale = 500
 
+# TODO dont call this from Main, its not easily understandable
 var applied_force = Vector2()
+var applied_direction = Vector2()
+
+func _ready():
+	$LeftRightGradient.hide()
+	$TopBottomGradient.hide()
 
 func _physics_process(delta):
 	# TODO handle delta
 	
-	var new_applied_force = Vector2()
+	var direction = Vector2()
 	if Input.is_action_pressed("ui_right"):
-		new_applied_force.x += 1
+		direction.x += 1
 	if Input.is_action_pressed("ui_left"):
-		new_applied_force.x -= 1
+		direction.x -= 1
 	if Input.is_action_pressed("ui_down"):
-		new_applied_force.y += 1
+		direction.y += 1
 	if Input.is_action_pressed("ui_up"):
-		new_applied_force.y -= 1
+		direction.y -= 1
 	
-	if new_applied_force.length() > 0:
-		new_applied_force = new_applied_force.normalized()
-		new_applied_force *= force_scale
+	if direction.length() > 0:
+		direction = direction.normalized()
 	
-	if new_applied_force.distance_to(applied_force) > 0:
-		utils_printf("applying new force: %s" % [str(new_applied_force)])
-		emit_signal("apply_uniform_force", new_applied_force - applied_force)
-		applied_force = new_applied_force
+	if direction.distance_to(applied_direction) > 0:
+		change_gradient(direction)
+		change_force(direction)
+
+func change_gradient(direction):
+	$LeftRightGradient.show()
+	if direction.x == 0:
+		$LeftRightGradient.hide()
+	elif direction.x > 0:
+		$LeftRightGradient.flip_h = false
+	else:
+		$LeftRightGradient.flip_h = true
+	
+	$TopBottomGradient.show()
+	if direction.y == 0:
+		$TopBottomGradient.hide()
+	elif direction.y > 0:
+		$TopBottomGradient.flip_h = false
+	else:
+		$TopBottomGradient.flip_h = true
+
+	applied_direction = direction
+
+func change_force(direction):
+	var new_applied_force = direction * force_scale
+
+	utils_printf("applying new force: %s" % [str(new_applied_force)])
+	emit_signal("apply_uniform_force", new_applied_force - applied_force)
+	applied_force = new_applied_force
 
 func utils_printf(msg: String, vars: Array = []):
 	var prefix = "[%d] [%s %d] " % [OS.get_unix_time(), name, get_instance_id()]
