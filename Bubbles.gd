@@ -6,11 +6,13 @@ export (PackedScene) var Bubble
 export var bubbles_min_mass = 2
 export var bubbles_max_mass = 6
 
+export var enable_on_start = false
+
 var bubbles_group = "bubbles"
 
 func _ready():
 	randomize()
-	if get_tree().current_scene.name == name:
+	if enable_on_start or get_tree().current_scene.name == name:
 		enable()
 	
 func enable():
