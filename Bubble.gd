@@ -41,18 +41,3 @@ func utils_printf(msg: String, vars: Array = []):
 	var prefix = "[%d] [%s %d] " % [OS.get_unix_time(), name, get_instance_id()]
 	var content = msg % vars
 	print(prefix + content)
-
-# apply force
-func _integrate_forces(state):
-
-	applied_force = Vector2()
-	if Input.is_action_pressed("ui_right"):
-		applied_force.x += force
-	if Input.is_action_pressed("ui_left"):
-		applied_force.x -= force
-	if Input.is_action_pressed("ui_down"):
-		applied_force.y += force
-	if Input.is_action_pressed("ui_up"):
-		applied_force.y -= force
-	
-	applied_torque = torque
