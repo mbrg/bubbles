@@ -13,15 +13,15 @@ func _ready():
 	
 	$BubbleTimer.connect("timeout", self, "_on_BubbleTimer_timeout")
 	
-	start_if_main()
+	enable_if_main()
 	
-func start_if_main():
+func enable_if_main():
 	if get_tree().current_scene.name != name:
 		return
-	start()
+	enable()
 	
-func start():
-	$BubbleTimer.start()
+func enable():
+	$BubbleTimer.enable()
 
 func add_force(force: Vector2, position: Vector2):
 	var bubbles = get_tree().get_nodes_in_group(bubbles_group)
@@ -51,4 +51,4 @@ func _on_BubbleTimer_timeout():
 	bubble.mass = size
 	bubble.set_scale(scale)
 	
-	bubble.start()
+	bubble.enable()
