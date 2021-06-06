@@ -1,5 +1,7 @@
 extends Node
-#class_name Bubbles
+class_name Bubbles
+
+signal spawned_new_bubble(new_bubble)
 
 export (PackedScene) var Bubble
 
@@ -19,11 +21,13 @@ func enable():
 	$BubbleTimer.start()
 
 func add_force(offset: Vector2, force: Vector2):
+	utils_printf("add_force(%s,%s)", [offset, force])
 	var bubbles = get_tree().get_nodes_in_group(bubbles_group)
 	for bubble in bubbles:
 		bubble.add_force(offset, force)
 
 func apply_impulse(offset: Vector2, impulse: Vector2):
+	utils_printf("apply_impulse(%s,%s)", [offset, impulse])
 	var bubbles = get_tree().get_nodes_in_group(bubbles_group)
 	for bubble in bubbles:
 		bubble.apply_impulse(offset, impulse)
@@ -47,3 +51,9 @@ func _on_BubbleTimer_timeout():
 	bubble.set_scale(scale)
 	
 	bubble.enable()
+	emit_signal("spawned_new_bubble", bubble)
+
+func utils_printf(msg: String, vars: Array = []):
+	var prefix = "[%d] [%s %d] " % [OS.get_unix_time(), name, get_instance_id()]
+	var content = msg % vars
+	print(prefix + content)

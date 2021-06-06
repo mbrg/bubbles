@@ -25,8 +25,8 @@ func _physics_process(delta):
 		new_applied_force *= force_scale
 	
 	if new_applied_force.distance_to(applied_force) > 0:
-		utils_printf("applying new force: %s" % [str(new_applied_force - applied_force)])
-		emit_signal("apply_force", new_applied_force)
+		utils_printf("applying new force: %s" % [str(new_applied_force)])
+		emit_signal("apply_uniform_force", new_applied_force - applied_force)
 		applied_force = new_applied_force
 
 func utils_printf(msg: String, vars: Array = []):
