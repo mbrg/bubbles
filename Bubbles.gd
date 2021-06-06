@@ -9,8 +9,11 @@ export var enable_on_start = false
 
 export var gravity_scale = 9.8
 export var linear_damp = -1
-export var min_mass = 2
-export var max_mass = 6
+export var min_mass = 0
+export var max_mass = 3
+
+export var min_bubbles_spawned = 1
+export var max_bubbles_spawned = 5
 
 var group = "bubbles"
 
@@ -35,6 +38,11 @@ func apply_impulse(offset: Vector2, impulse: Vector2):
 		bubble.apply_impulse(offset, impulse)
 
 func _on_BubbleTimer_timeout():
+	var n = rand_range(min_bubbles_spawned, max_bubbles_spawned)
+	for i in range(n):
+		spawn_bubble()
+
+func spawn_bubble():
 	# new bubble
 	var bubble = Bubble.instance()
 	bubble.add_to_group(group)
