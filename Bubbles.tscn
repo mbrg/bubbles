@@ -5,7 +5,7 @@
 
 [sub_resource type="Curve2D" id=1]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, -96, 232, 0, 0, 0, 0, -96, 552, 0, 0, 0, 0, 1120, 552, 0, 0, 0, 0, 1120, 232 )
+"points": PoolVector2Array( 0, 0, 0, 0, -96, 232, 0, 0, 0, 0, -96, 672, 0, 0, 0, 0, 1120, 672, 0, 0, 0, 0, 1120, 232 )
 }
 
 [node name="Bubbles" type="Node"]

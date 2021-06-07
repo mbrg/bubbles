@@ -86,7 +86,6 @@ func _on_Bubble_body_entered(body):
 		$CollisionShape2D.scale = Vector2(1.4, 1.4)
 	
 func _on_AnimatedSprite_animation_finished():
-	# TODO this is very ineeficient
 	if $AnimatedSprite.animation == "pop_two":
 		$CollisionShape2D.set_deferred("disabled", true)
 		hide()
