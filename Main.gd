@@ -4,7 +4,7 @@ class_name Main
 export var bubbles_gravity_scale = 5 * 9.8
 export var bubbles_linear_damp = 5 * 0.1
 export var bubbles_min_mass = 2
-export var bubbles_max_mass = 6
+export var bubbles_max_mass = 12
 export var player_force_scale = 500
 
 func _ready():

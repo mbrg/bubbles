@@ -28,12 +28,18 @@ _global_script_classes=[ {
 "class": "Player",
 "language": "GDScript",
 "path": "res://Player.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "PlayerV2",
+"language": "GDScript",
+"path": "res://PlayerV2.gd"
 } ]
 _global_script_class_icons={
 "Bubble": "res://art/bubble.png",
 "Bubbles": "",
 "Main": "",
-"Player": ""
+"Player": "",
+"PlayerV2": ""
 }
 
 [application]

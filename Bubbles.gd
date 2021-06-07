@@ -7,10 +7,12 @@ export (PackedScene) var Bubble
 
 export var enable_on_start = false
 
-export var gravity_scale = 9.8
-export var linear_damp = -1
-export var min_mass = 0
-export var max_mass = 3
+export var gravity_scale: float
+export var linear_damp: float
+export var min_mass: float
+export var max_mass: float
+
+export var max_bubble_scale = sqrt(3) - 1
 
 export var min_bubbles_spawned = 2
 export var max_bubbles_spawned = 10
@@ -62,7 +64,7 @@ func spawn_bubble():
 	# choose random mass
 	var size = rand_range(min_mass, max_mass)
 	# scale bubble size according to mass
-	var scale = sqrt(size/min_mass)
+	var scale = 1.0 + max_bubble_scale * (size - min_mass) / (max_mass - min_mass)
 	
 	# set bubble properties
 	bubble.position = $BubblePath/BubbleSpawnLocation.position

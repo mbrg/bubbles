@@ -17,9 +17,11 @@ var was_in_screen = false
 
 func _ready():
 	randomize()
-	$Sprite.material = $Sprite.get_material().duplicate()
 	var cur_wind_interval = wind_interval + randf() * wind_interval_var - wind_interval_var / 2
+	$Sprite.material = $Sprite.get_material().duplicate()
 	$Sprite.get_material().set_shader_param("interval", cur_wind_interval)
+	$AnimatedSprite.material = $AnimatedSprite.get_material().duplicate()
+	$AnimatedSprite.get_material().set_shader_param("interval", cur_wind_interval)
 	
 	slow_wind()
 
@@ -30,13 +32,19 @@ func _ready():
 func fast_wind():
 	$Sprite.get_material().set_shader_param("speed", wind_fast_speed)
 	$Sprite.get_material().set_shader_param("strengthScale", wind_fast_strength_scale)
+	$AnimatedSprite.get_material().set_shader_param("speed", wind_fast_speed)
+	$AnimatedSprite.get_material().set_shader_param("strengthScale", wind_fast_strength_scale)
 
 func slow_wind():
 	$Sprite.get_material().set_shader_param("speed", wind_slow_speed)
 	$Sprite.get_material().set_shader_param("strengthScale", wind_slow_strength_scale)
+	$AnimatedSprite.get_material().set_shader_param("speed", wind_slow_speed)
+	$AnimatedSprite.get_material().set_shader_param("strengthScale", wind_slow_strength_scale)
 
 func set_scale(scale):
+	utils_printf("Setting scale to: %f", [scale], 10)
 	$Sprite.scale *= scale
+	$AnimatedSprite.scale *= scale
 	$CollisionShape2D.scale *= scale
 	$VisibilityNotifier2D.scale *= scale
 
@@ -64,8 +72,21 @@ func _on_VisibilityNotifier2D_screen_entered():
 
 func _on_Bubble_body_entered(body):
 	utils_printf("POP", Array(), 10)
-	hide()
-	$CollisionShape2D.set_deferred("disabled", true)
+	$AnimatedSprite.animation = "pop_two"
+	
+	# hide in case we are using sprite, not anomated sprite
+	if $Sprite.visible:
+		$CollisionShape2D.set_deferred("disabled", true)
+		hide()
+	if $AnimatedSprite.visible and $VisibilityNotifier2D.is_on_screen():
+		# scale collision shape to pop animation
+		$CollisionShape2D.scale = Vector2(1.4, 1.4)
+	
+func _on_AnimatedSprite_animation_finished():
+	# TODO this is very ineeficient
+	if $AnimatedSprite.animation == "pop_two":
+		$CollisionShape2D.set_deferred("disabled", true)
+		hide()
 
 export var utils_log_level = 20  # info
 
