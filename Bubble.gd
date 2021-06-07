@@ -42,7 +42,8 @@ func set_scale(scale):
 
 func enable():
 	utils_printf("position=%s, mass=%f, gravity_scale=%f", 
-		[str(position), mass, pseudo_gravity_scale])
+		[str(position), mass, pseudo_gravity_scale],
+		10)
 
 	show()
 	$CollisionShape2D.disabled = false
@@ -50,22 +51,26 @@ func enable():
 	# apply gravity
 	add_force(Vector2(), pseudo_gravity_scale * mass * pseudo_gravity_vec)
 
+func free_bubble():
+	utils_printf("Left screen", Array(), 10)
+	queue_free()
+
 func _on_VisibilityNotifier2D_screen_exited():
 	if was_in_screen:
-		utils_printf("Left screen")
-		queue_free()
+		free_bubble()
 	
 func _on_VisibilityNotifier2D_screen_entered():
 	was_in_screen = true
 
 func _on_Bubble_body_entered(body):
-	utils_printf("POP")
+	utils_printf("POP", Array(), 10)
 	hide()
 	$CollisionShape2D.set_deferred("disabled", true)
 
-func utils_printf(msg: String, vars: Array = []):
-	var prefix = "[%d] [%s %d] " % [OS.get_unix_time(), name, get_instance_id()]
-	var content = msg % vars
-	print(prefix + content)
+export var utils_log_level = 20  # info
 
-
+func utils_printf(msg: String, vars: Array = [], level: int = 0):
+	if level >= utils_log_level:
+		var prefix = "[%d] [%s %d] " % [OS.get_unix_time(), name, get_instance_id()]
+		var content = msg % vars
+		print(prefix + content)

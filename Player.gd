@@ -58,11 +58,14 @@ func change_gradient(direction):
 func change_force(direction):
 	var new_applied_force = direction * force_scale
 
-	utils_printf("applying new force: %s" % [str(new_applied_force)])
+	utils_printf("applying new force: %s", [str(new_applied_force)], 10)
 	emit_signal("apply_uniform_force", new_applied_force - applied_force)
 	applied_force = new_applied_force
 
-func utils_printf(msg: String, vars: Array = []):
-	var prefix = "[%d] [%s %d] " % [OS.get_unix_time(), name, get_instance_id()]
-	var content = msg % vars
-	print(prefix + content)
+export var utils_log_level = 20  # info
+
+func utils_printf(msg: String, vars: Array = [], level: int = 0):
+	if level >= utils_log_level:
+		var prefix = "[%d] [%s %d] " % [OS.get_unix_time(), name, get_instance_id()]
+		var content = msg % vars
+		print(prefix + content)

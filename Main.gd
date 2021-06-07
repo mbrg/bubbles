@@ -23,7 +23,10 @@ func _on_Player_apply_uniform_force(force_vec):
 func _on_Bubbles_spawned_new_bubble(new_bubble: Bubble):
 	new_bubble.add_force(Vector2(), $Player.applied_force)
 
-func utils_printf(msg: String, vars: Array = []):
-	var prefix = "[%d] [%s %d] " % [OS.get_unix_time(), name, get_instance_id()]
-	var content = msg % vars
-	print(prefix + content)
+export var utils_log_level = 20  # info
+
+func utils_printf(msg: String, vars: Array = [], level: int = 0):
+	if level >= utils_log_level:
+		var prefix = "[%d] [%s %d] " % [OS.get_unix_time(), name, get_instance_id()]
+		var content = msg % vars
+		print(prefix + content)

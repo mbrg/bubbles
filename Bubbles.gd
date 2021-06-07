@@ -12,8 +12,10 @@ export var linear_damp = -1
 export var min_mass = 0
 export var max_mass = 3
 
-export var min_bubbles_spawned = 1
-export var max_bubbles_spawned = 5
+export var min_bubbles_spawned = 2
+export var max_bubbles_spawned = 10
+
+var bubbles_free_threshold = - 96
 
 var group = "bubbles"
 
@@ -24,15 +26,16 @@ func _ready():
 	
 func enable():
 	$BubbleTimer.start()
+	$CleanupTimer.start()
 
 func add_force(offset: Vector2, force: Vector2):
-	utils_printf("add_force(%s,%s)", [offset, force])
+	utils_printf("add_force(%s,%s)", [offset, force], 10)
 	var bubbles = get_tree().get_nodes_in_group(group)
 	for bubble in bubbles:
 		bubble.add_force(offset, force)
 
 func apply_impulse(offset: Vector2, impulse: Vector2):
-	utils_printf("apply_impulse(%s,%s)", [offset, impulse])
+	utils_printf("apply_impulse(%s,%s)", [offset, impulse], 10)
 	var bubbles = get_tree().get_nodes_in_group(group)
 	for bubble in bubbles:
 		bubble.apply_impulse(offset, impulse)
@@ -41,6 +44,12 @@ func _on_BubbleTimer_timeout():
 	var n = rand_range(min_bubbles_spawned, max_bubbles_spawned)
 	for i in range(n):
 		spawn_bubble()
+
+func _on_CleanupTimer_timeout():
+	var bubbles = get_tree().get_nodes_in_group(group)
+	for bubble in bubbles:
+		if bubble.position.y < bubbles_free_threshold:
+			bubble.free_bubble()
 
 func spawn_bubble():
 	# new bubble
@@ -66,7 +75,10 @@ func spawn_bubble():
 	bubble.enable()
 	emit_signal("spawned_new_bubble", bubble)
 
-func utils_printf(msg: String, vars: Array = []):
-	var prefix = "[%d] [%s %d] " % [OS.get_unix_time(), name, get_instance_id()]
-	var content = msg % vars
-	print(prefix + content)
+export var utils_log_level = 20  # info
+
+func utils_printf(msg: String, vars: Array = [], level: int = 0):
+	if level >= utils_log_level:
+		var prefix = "[%d] [%s %d] " % [OS.get_unix_time(), name, get_instance_id()]
+		var content = msg % vars
+		print(prefix + content)
