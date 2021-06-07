@@ -4,6 +4,7 @@ class_name Player
 signal apply_uniform_force(force_vec)
 
 export var force_scale = 500
+export var hide = false
 
 # TODO dont call this from Main, its not easily understandable
 var applied_force = Vector2()
@@ -34,7 +35,8 @@ func _physics_process(delta):
 		change_force(direction)
 
 func change_gradient(direction):
-	$LeftRightGradient.show()
+	if not hide:
+		$LeftRightGradient.show()
 	if direction.x == 0:
 		$LeftRightGradient.hide()
 	elif direction.x > 0:
@@ -42,7 +44,8 @@ func change_gradient(direction):
 	else:
 		$LeftRightGradient.flip_h = true
 	
-	$TopBottomGradient.show()
+	if not hide:
+		$TopBottomGradient.show()
 	if direction.y == 0:
 		$TopBottomGradient.hide()
 	elif direction.y > 0:
