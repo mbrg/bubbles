@@ -27,6 +27,7 @@ func _ready():
 		enable()
 	
 func enable():
+	# TODO spawn with velocity instead of waiting soo much
 	$BubbleTimer.wait_time = 1.8  # avoid pops as spawn time
 	$BubbleTimer.start()
 	$CleanupTimer.start()
