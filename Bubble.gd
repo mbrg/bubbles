@@ -22,6 +22,9 @@ func _ready():
 	$Sprite.get_material().set_shader_param("interval", cur_wind_interval)
 	$AnimatedSprite.material = $AnimatedSprite.get_material().duplicate()
 	$AnimatedSprite.get_material().set_shader_param("interval", cur_wind_interval)
+	if $AnimatedSprite.visible:
+		# default animation is only one image - avoid triggering _on_AnimatedSprite_animation_finished
+		$AnimatedSprite.stop()
 	
 	slow_wind()
 
@@ -72,7 +75,7 @@ func _on_VisibilityNotifier2D_screen_entered():
 
 func _on_Bubble_body_entered(body):
 	utils_printf("POP", Array(), 10)
-	$AnimatedSprite.animation = "pop_two"
+	$AnimatedSprite.play("pop_two")
 	
 	# hide in case we are using sprite, not anomated sprite
 	if $Sprite.visible:
