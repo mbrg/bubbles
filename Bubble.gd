@@ -13,6 +13,8 @@ export var wind_slow_strength_scale = 100
 export var wind_fast_speed = 12
 export var wind_fast_strength_scale = 200
 
+var was_in_screen = false
+
 func _ready():
 	randomize()
 	$Sprite.material = $Sprite.get_material().duplicate()
@@ -41,7 +43,7 @@ func set_scale(scale):
 func enable():
 	utils_printf("position=%s, mass=%f, gravity_scale=%f", 
 		[str(position), mass, pseudo_gravity_scale])
-	
+
 	show()
 	$CollisionShape2D.disabled = false
 	
@@ -49,8 +51,12 @@ func enable():
 	add_force(Vector2(), pseudo_gravity_scale * mass * pseudo_gravity_vec)
 
 func _on_VisibilityNotifier2D_screen_exited():
-	utils_printf("Left screen")
-	queue_free()
+	if was_in_screen:
+		utils_printf("Left screen")
+		queue_free()
+	
+func _on_VisibilityNotifier2D_screen_entered():
+	was_in_screen = true
 
 func _on_Bubble_body_entered(body):
 	utils_printf("POP")
@@ -61,3 +67,5 @@ func utils_printf(msg: String, vars: Array = []):
 	var prefix = "[%d] [%s %d] " % [OS.get_unix_time(), name, get_instance_id()]
 	var content = msg % vars
 	print(prefix + content)
+
+

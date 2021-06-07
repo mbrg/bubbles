@@ -36,4 +36,5 @@ position = Vector2( -2.38419e-06, 0.140309 )
 scale = Vector2( 1.96812, 1.98215 )
 
 [connection signal="body_entered" from="." to="." method="_on_Bubble_body_entered"]
+[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
