@@ -14,7 +14,7 @@ export var max_mass: float
 
 export var max_bubble_scale = sqrt(3) - 1
 
-export var min_bubbles_spawned = 2
+export var min_bubbles_spawned = 4
 export var max_bubbles_spawned = 10
 
 var bubbles_free_threshold = - 96
@@ -27,6 +27,7 @@ func _ready():
 		enable()
 	
 func enable():
+	$BubbleTimer.wait_time = 1.8  # avoid pops as spawn time
 	$BubbleTimer.start()
 	$CleanupTimer.start()
 
