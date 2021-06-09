@@ -1,1 +1,1 @@
-![gameplay](ps.png?raw=true "Gameplay")
+![gameplay](ps.gif?raw=true "Gameplay")
